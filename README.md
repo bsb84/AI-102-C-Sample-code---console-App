@@ -26,6 +26,12 @@ This repository contains sample C# code for building console applications relate
 3. **Restore dependencies** (if any) using NuGet Package Manager.
 4. **Build and run the console app** to explore AI code samples.
 
+## Reference
+   Refer below for setting up enviornemnt variables & Azure AI resources & env variables
+   https://learn.microsoft.com/en-us/azure/ai-services/language-service/language-detection/quickstart?tabs=windows&pivots=programming-language-csharp
+   
+   
+
 ## Usage
 
 This repository is intended for educational purposes and hands-on learning for the AI-102 certification. Explore the code, modify it, and run experiments to deepen your understanding of AI concepts in C#.
