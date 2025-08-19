@@ -27,7 +27,7 @@ This repository contains sample C# code for building console applications relate
 4. **Build and run the console app** to explore AI code samples.
 
 ## Reference
-   Refer below for setting up enviornemnt variables & Azure AI resources & env variables
+   Refer below for setting up Azure AI resources & env variables:
    https://learn.microsoft.com/en-us/azure/ai-services/language-service/language-detection/quickstart?tabs=windows&pivots=programming-language-csharp
    
    
