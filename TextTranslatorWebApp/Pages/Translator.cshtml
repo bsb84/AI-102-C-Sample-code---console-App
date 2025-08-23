@@ -1,0 +1,140 @@
+@page
+@model TranslatorModel
+@{
+    ViewData["Title"] = "Text Translator";
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4">AI Text Translator</h1>
+    <p class="text-center text-muted">Translate text into multiple languages using Azure AI Translation Service</p>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    <form method="post" class="row g-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Input Text</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="InputText" class="form-label"></label>
+                        <textarea asp-for="InputText" class="form-control" rows="4" placeholder="Enter the text you want to translate..."></textarea>
+                        <span asp-validation-for="InputText" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Target Languages</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="SelectedLanguages" class="form-label">Select languages to translate to:</label>
+                        <span asp-validation-for="SelectedLanguages" class="text-danger"></span>
+                        
+                        <div class="row mt-2">
+                            @foreach (var language in Model.AvailableLanguages)
+                            {
+                                <div class="col-md-4 col-sm-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="@language.Key" 
+                                               name="SelectedLanguages" id="lang_@language.Key"
+                                               @(Model.SelectedLanguages.Contains(language.Key) ? "checked" : "") />
+                                        <label class="form-check-label" for="lang_@language.Key">
+                                            @language.Value
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-translate"></i> Translate Text
+            </button>
+        </div>
+    </form>
+
+    @if (Model.TranslatedTexts.Any())
+    {
+        <div class="mt-5">
+            <h3 class="mb-4">Translation Results</h3>
+            
+            @foreach (var translation in Model.TranslatedTexts)
+            {
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title mb-0">@translation.Key</h6>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('@translation.Key')">
+                            <i class="bi bi-clipboard"></i> Copy
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" id="translation_@translation.Key.Replace(" ", "_")">@translation.Value</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function copyToClipboard(languageName) {
+            const elementId = 'translation_' + languageName.replace(/ /g, '_');
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                // Show success message
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="bi bi-check"></i> Copied!';
+                button.classList.remove('btn-outline-secondary');
+                button.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-outline-secondary');
+                }, 2000);
+            });
+        }
+
+        // Select/Deselect All functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add "Select All" and "Clear All" buttons
+            const cardBody = document.querySelector('.card-body');
+            if (cardBody) {
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'mb-3';
+                buttonContainer.innerHTML = `
+                    <button type="button" class="btn btn-sm btn-outline-primary me-2" onclick="selectAllLanguages()">Select All</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearAllLanguages()">Clear All</button>
+                `;
+                cardBody.insertBefore(buttonContainer, cardBody.querySelector('.row'));
+            }
+        });
+
+        function selectAllLanguages() {
+            const checkboxes = document.querySelectorAll('input[name="SelectedLanguages"]');
+            checkboxes.forEach(cb => cb.checked = true);
+        }
+
+        function clearAllLanguages() {
+            const checkboxes = document.querySelectorAll('input[name="SelectedLanguages"]');
+            checkboxes.forEach(cb => cb.checked = false);
+        }
+    </script>
+}
