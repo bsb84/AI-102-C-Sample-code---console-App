@@ -1,0 +1,60 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">AI-102 Text Translator</h1>
+    <p class="lead">A C# web application demonstrating Azure AI Translation Services</p>
+    
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-translate text-primary"></i>
+                        Text Translation
+                    </h5>
+                    <p class="card-text">
+                        Translate text into multiple languages simultaneously using Azure AI Translation Service.
+                        Choose from 18 different target languages with an intuitive multiselect interface.
+                    </p>
+                    <a href="/Translator" class="btn btn-primary">
+                        <i class="bi bi-arrow-right"></i> Start Translating
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-globe display-6 text-info"></i>
+                    <h6 class="card-title mt-3">Multiple Languages</h6>
+                    <p class="card-text">Support for 18 major world languages including Spanish, French, German, Chinese, and more.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-check2-square display-6 text-success"></i>
+                    <h6 class="card-title mt-3">Multiselect Interface</h6>
+                    <p class="card-text">Select multiple target languages at once to get translations in all selected languages simultaneously.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-cloud display-6 text-warning"></i>
+                    <h6 class="card-title mt-3">Azure AI Powered</h6>
+                    <p class="card-text">Powered by Azure AI Translation Services for high-quality, accurate translations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
